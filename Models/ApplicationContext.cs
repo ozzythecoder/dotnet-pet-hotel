@@ -1,4 +1,4 @@
-   using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 /*
     This class sets up the link between your Plain Old C# Object (POCO) and
@@ -21,7 +21,9 @@ namespace pet_hotel.Models
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
-        // public DbSet<MyClass> MyClassTable { get; set; }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
+        
+        public DbSet<Pet> Pet { get; set; }
+        public DbSet<PetOwner> PetOwner { get; set; }
     }
 }
