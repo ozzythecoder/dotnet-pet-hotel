@@ -27,14 +27,14 @@ namespace pet_hotel.Controllers
         [HttpGet]
         public IEnumerable<Pet> GetAllPets()
         {
-            return _context.Pet.Include(pet => pet.owner);
+            return _context.Pet.Include(pet => pet.petOwner);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Pet> GetPetById(int id)
         {
             Pet petFound = _context.Pet
-                .Include(pet => pet.owner)
+                .Include(pet => pet.petOwner)
                 .SingleOrDefault(pet => pet.id == id);
             if (petFound is null)
                 return NotFound();
