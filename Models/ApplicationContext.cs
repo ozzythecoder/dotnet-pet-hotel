@@ -25,5 +25,7 @@ namespace pet_hotel.Models
         
         public DbSet<Pet> Pet { get; set; }
         public DbSet<PetOwner> PetOwner { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
+
     }
 }
