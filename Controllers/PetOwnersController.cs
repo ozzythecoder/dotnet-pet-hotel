@@ -47,10 +47,17 @@ namespace pet_hotel.Controllers
         public PetOwner DeletePetOwner(int id)
         {
 
-            PetOwner removeOwner = _context.PetOwner.Find(int id);
+            PetOwner removeOwner = _context.PetOwner.Find(id);
             _context.Remove(removeOwner);
             _context.SaveChanges();
             return removeOwner;
+        }
+[HttpPut("{id}")]
+        public PetOwner UpdatePetOwner(PetOwner petOwnerUpdate, int id)
+        {
+            _context.Update(petOwnerUpdate);
+            _context.SaveChanges();
+            return petOwnerUpdate;
         }
 
 
