@@ -20,7 +20,11 @@ namespace pet_hotel
         public int id {get; set;}
         public DateTime timestamp {get; set;}
         public actionType actionType {get; set;}
+
+        [ForeignKey("pet")]
         public int? petId {get; set;}
+
+        [ForeignKey("owner")]
         public int? ownerId {get; set;}
     }
 }
