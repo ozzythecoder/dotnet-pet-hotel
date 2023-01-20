@@ -36,10 +36,10 @@ namespace pet_hotel
 
         public DateTime checkedInAt { get; set; }
 
-        [ForeignKey("ownerIs")]
+        [ForeignKey("owner")]
         public int petOwnerId { get; set; }
 
-        public PetOwner ownerIs { get; set; }
+        public PetOwner owner { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public PetBreedType breed { get; set; }
