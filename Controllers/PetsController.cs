@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pet_hotel.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace pet_hotel.Controllers
 {
@@ -15,15 +16,82 @@ namespace pet_hotel.Controllers
     public class PetsController : ControllerBase
     {
         private readonly ApplicationContext _context;
-        public PetsController(ApplicationContext context) {
+
+        public PetsController(ApplicationContext context)
+        {
             _context = context;
         }
 
-        // This is just a stub for GET / to prevent any weird frontend errors that 
+        // This is just a stub for GET / to prevent any weird frontend errors that
         // occur when the route is missing in this controller
         [HttpGet]
-        public IEnumerable<Pet> GetPets() {
-            return new List<Pet>();
+        public IEnumerable<Pet> GetAllPets()
+        {
+            return _context.Pet.Include(pet => pet.owner);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Pet> GetPetById(int id)
+        {
+            Pet petFound = _context.Pet
+                .Include(pet => pet.owner)
+                .SingleOrDefault(pet => pet.id == id);
+            if (petFound is null)
+                return NotFound();
+            return petFound;
+        }
+
+        [HttpPost]
+        public Pet PostPet(Pet newPet)
+        {
+            _context.Add(newPet);
+            _context.SaveChanges();
+            return newPet;
+        }
+
+        [HttpPut("{id}")]
+        public Pet UpdatePet(Pet petUpdate, int id)
+        {
+            _context.Update(petUpdate);
+            _context.SaveChanges();
+            return petUpdate;
+        }
+
+        [HttpDelete("{id}")]
+        public Pet DeletePet(int id)
+        {
+            Pet badPet = _context.Pet.Find(id);
+            _context.Remove(badPet);
+            _context.SaveChanges();
+            return badPet;
+        }
+
+        [HttpPut("{id}/checkin")]
+        public IActionResult CheckinPet(int id)
+        {
+            Pet newPet = _context.Pet.Find(id);
+            if (newPet.checkedInAt is null)
+            {
+                newPet.checkedInAt = DateTime.Now;
+                _context.SaveChanges();
+                return Ok();
+            }
+            else
+                return BadRequest();
+        }
+
+        [HttpPut("{id}/checkout")]
+        public IActionResult CheckoutPet(int id)
+        {
+            Pet newPet = _context.Pet.Find(id);
+            if (newPet.checkedInAt is null)
+                return BadRequest();
+            else
+            {
+                newPet.checkedInAt = null;
+                _context.SaveChanges();
+                return Ok();
+            }
         }
 
         // [HttpGet]
