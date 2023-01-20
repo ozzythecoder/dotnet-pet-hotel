@@ -52,7 +52,7 @@ namespace pet_hotel.Controllers
             _context.SaveChanges();
             return removeOwner;
         }
-[HttpPut("{id}")]
+        [HttpPut("{id}")]
         public PetOwner UpdatePetOwner(PetOwner petOwnerUpdate, int id)
         {
             _context.Update(petOwnerUpdate);
