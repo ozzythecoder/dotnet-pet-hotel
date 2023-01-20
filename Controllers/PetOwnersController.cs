@@ -35,23 +35,24 @@ namespace pet_hotel.Controllers
         }
 
         [HttpPost]
-        public PetOwner Post(PetOwner petowner)
+        public ActionResult<PetOwner> Post(PetOwner petowner)
         {
             _context.Add(petowner);
             _context.SaveChanges();
-            return petowner;
+            return Created($"~/api/PetOwners/{petowner.id}", petowner);
         }
 
 
         [HttpDelete("{id}")]
-        public PetOwner DeletePetOwner(int id)
+        public ActionResult DeletePetOwner(int id)
         {
 
             PetOwner removeOwner = _context.PetOwner.Find(id);
             _context.Remove(removeOwner);
             _context.SaveChanges();
-            return removeOwner;
+            return NoContent();
         }
+
         [HttpPut("{id}")]
         public PetOwner UpdatePetOwner(PetOwner petOwnerUpdate, int id)
         {
