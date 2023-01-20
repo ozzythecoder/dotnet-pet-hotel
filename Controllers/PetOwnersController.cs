@@ -27,11 +27,18 @@ namespace pet_hotel.Controllers
         public ActionResult<PetOwner> GetPetOwnerById (int id){ 
             PetOwner petowner = _context.PetOwner.FirstOrDefault(petowner => petowner.id == id);
             
-    
             if (petowner is null){ 
                 return NotFound();
             }
 
+            return petowner;
+        }
+
+        [HttpPost]
+        public PetOwner Post(PetOwner petowner)
+        {
+            _context.Add(petowner);
+            _context.SaveChanges();
             return petowner;
         }
         
